@@ -1,19 +1,30 @@
 from __future__ import annotations
-import argparse, json
+import argparse, json, sys
 from pathlib import Path
 from .exporter import export_url
 from .naming import collection_name
+from .skill_installer import default_skill_root, install_skill
 
-def main() -> None:
-    parser = argparse.ArgumentParser(prog="biji-archive")
-    parser.add_argument("url", help="完整的 biji.com 知识库 URL")
-    parser.add_argument("--output", type=Path, default=Path("exports"))
-    parser.add_argument("--profile", type=Path, default=Path.home()/".biji-archive"/"chrome-profile")
-    parser.add_argument("--max", type=int, default=0)
-    args = parser.parse_args()
+def export_command(args: argparse.Namespace) -> None:
     destination = args.output / collection_name(args.url)
     result = export_url(args.url, destination, args.profile, args.max)
-    print(json.dumps({"output_dir": str(result.output_dir), "exported": result.exported}, ensure_ascii=False))
+    print(json.dumps({"ok": True, "output_dir": str(result.output_dir), "exported": result.exported}, ensure_ascii=False))
 
-if __name__ == "__main__":
-    main()
+def install_command(args: argparse.Namespace) -> None:
+    root = args.dir or default_skill_root(args.agent)
+    command = f'python "{Path(__file__).resolve().parents[2] / "src" / "biji_archive" / "cli.py"}" export-url'
+    target = install_skill(root, command)
+    print(json.dumps({"ok": True, "skill_dir": str(target)}, ensure_ascii=False))
+
+def main() -> None:
+    parser=argparse.ArgumentParser(prog="biji-archive", description="Export your Biji knowledge-base notes locally.")
+    subs=parser.add_subparsers(dest="command", required=True)
+    export=subs.add_parser("export-url", help="Export one knowledge-base URL")
+    export.add_argument("url"); export.add_argument("--output",type=Path,default=Path("exports")); export.add_argument("--profile",type=Path,default=Path.home()/".biji-archive"/"chrome-profile"); export.add_argument("--max",type=int,default=0); export.set_defaults(handler=export_command)
+    install=subs.add_parser("install-skill", help="Install the bundled Agent Skill")
+    install.add_argument("--agent",choices=("codex","claude"),default="codex"); install.add_argument("--dir",type=Path); install.set_defaults(handler=install_command)
+    args=parser.parse_args()
+    try: args.handler(args)
+    except Exception as exc:
+        print(json.dumps({"ok":False,"error":f"{type(exc).__name__}: {exc}"},ensure_ascii=False)); sys.exit(1)
+if __name__ == "__main__": main()

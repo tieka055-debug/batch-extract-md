@@ -1,37 +1,66 @@
 # Biji Archive
 
-将自己有权访问的 Get笔记知识库导出成 Markdown 的本地工具。
+一个本地运行的 Get笔记知识库归档工具：在独立 Chrome 中登录后，把自己可访问的知识库内容导出为 Markdown。
 
-## 设计
+## 已实现
 
-- **浏览器渲染提取**：适配 SPA 跳转后的完整正文，避免依赖未公开接口。
-- **独立持久登录配置**：首次在弹出的浏览器中登录；后续复用登录态。
-- **机器可读 CLI**：结束时输出 JSON，方便 Codex、Claude Code 等 Agent 集成。
-- **可演进架构**：后续增加 GUI、断点续传、API 适配器和多格式导出，而不耦合到页面选择器。
+- SPA 页面跳转后的正文提取与 Markdown 文件保存
+- 独立、持久化 Chrome 登录配置，不读取日常浏览器资料
+- 终端 CLI：结果以 JSON 输出，便于 Agent 稳定调用
+- 简洁桌面 GUI：填写 URL、选择目录、查看完成状态
+- 内置 Agent Skill：一条命令安装到 Codex 或 Claude Code
+- GitHub Actions 的基础语法与单元测试检查
 
 ## 安装
 
 ```bash
+git clone https://github.com/YOUR_GITHUB_USERNAME/biji-archive.git
+cd biji-archive
 python -m venv .venv
 . .venv/bin/activate
 pip install -e .
 playwright install chromium
 ```
 
-## 使用
+## 导出
 
 ```bash
-biji-archive "https://www.biji.com/subject/TARGET/DEFAULT?followId=TARGET&followName=NAME"
+biji-archive export-url "https://www.biji.com/subject/TARGET/DEFAULT?followId=TARGET&followName=NAME"
 ```
 
-首次运行会打开浏览器，请在该窗口完成登录。导出结果默认保存在 `exports/`。
+首次执行会打开独立 Chrome。请在该窗口中登录，脚本随后会继续导出；文件默认写入 `exports/`。
 
-## 路线图
+小范围验证：
 
-1. 完成真实页面选择器回归测试与断点续传。
-2. 增加可选的 API 适配器、Token 刷新和知识库/博主选择器。
-3. 提供桌面 GUI、Windows/macOS 打包和 GitHub Actions 发布。
+```bash
+biji-archive export-url "URL" --max 3
+```
 
-## 致谢与许可
+桌面版：
 
-见 [NOTICE.md](NOTICE.md)。本项目采用 MIT 许可证。
+```bash
+python -m biji_archive.gui
+```
+
+## 安装 Agent Skill
+
+```bash
+biji-archive install-skill --agent codex
+# 或
+biji-archive install-skill --agent claude
+```
+
+安装完成后，可直接对 Agent 说：
+
+> 导出这个 Get笔记知识库：URL
+
+## 开源发布清单
+
+1. 将 README 中的 `YOUR_GITHUB_USERNAME` 改成你的账号。
+2. 创建 GitHub 仓库 `biji-archive`，并推送当前分支。
+3. 在自己的 macOS 和 Windows 设备上各做一次登录、3 篇试导出和全量导出验证。
+4. 通过后创建 `v0.1.0` Release。
+
+## 许可证
+
+MIT
