@@ -26,9 +26,14 @@ Get笔记里的内容适合在应用内阅读，但当你想做个人备份、�
 
 如果你使用 Codex、Claude Code（CC）、豆包、WorkBuddy 或 Trae，优先安装仓库内的 Skill。Skill 负责让 Agent 知道什么时候调用本地导出命令；实际浏览器和文件仍在你的电脑上运行。
 
-#### 通用安装命令
+#### 通用安装方式（不只是在系统终端执行）
 
-在终端执行：
+下面这条命令支持多种入口：
+
+- 系统终端（Terminal / PowerShell）
+- Codex、Claude Code 的内置终端或命令执行窗口
+- 支持执行本地命令的 Agent：直接把命令发给 Agent，让它代为运行
+- 豆包、WorkBuddy、Trae 的“技能 / Skills 导入”入口（如果该版本支持标准 Agent Skills）
 
 ```bash
 npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md
@@ -38,17 +43,27 @@ npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md
 
 > 批量提取这个 Get笔记知识库的文案：URL
 
-#### 不同 Agent 的标注
+#### Codex、Claude Code、豆包、WorkBuddy、Trae 安装标注
 
-| Agent | 推荐方式 | 说明 |
+| Agent | 可用安装入口 | 推荐操作 |
 | --- | --- | --- |
-| **Codex** | `npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md --agent codex` | 安装到 Codex 的 Skills 目录 |
-| **Claude Code（CC）** | `npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md --agent claude-code` | 安装到 Claude Code 的 Skills 目录 |
-| **豆包** | 使用“技能 / Skill 导入”，选择仓库中的 `skills/batch-extract-md/` | 如果支持标准 Agent Skills，也可使用通用安装命令 |
-| **WorkBuddy** | 使用“技能 / Skill 导入”，选择仓库中的 `skills/batch-extract-md/` | 导入后让 WorkBuddy 调用本机 `batch-extract-md` 命令 |
-| **Trae** | 使用“Skills / Rules / Agent Skills”导入目录，选择 `skills/batch-extract-md/` | 不识别 `npx` 时使用目录导入 |
+| **Codex** | Codex 内置终端、命令执行窗口 | 运行通用命令，或直接让 Codex 执行这条命令 |
+| **Claude Code（CC）** | Claude Code 终端、命令执行窗口 | 运行通用命令，或执行带 `--agent claude-code` 的命令 |
+| **豆包** | 技能 / Skill 导入；部分版本支持命令执行 | 优先导入 `skills/batch-extract-md/`，支持命令执行时可运行通用命令 |
+| **WorkBuddy** | 技能 / Skill 导入；部分版本支持命令执行 | 导入 `skills/batch-extract-md/`，并确保它能调用本机 `batch-extract-md` |
+| **Trae** | Skills / Rules / Agent Skills 导入；部分版本支持命令执行 | 导入 `skills/batch-extract-md/`，或在命令窗口运行通用命令 |
 
-> 国内 Agent 的菜单名称可能因版本不同而变化。找不到导入入口时，直接把 `skills/batch-extract-md/SKILL.md` 放进它的 Skills 目录即可。
+Codex / Claude Code 的定向命令：
+
+```bash
+# Codex
+npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md --agent codex
+
+# Claude Code（CC）
+npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md --agent claude-code
+```
+
+> 国内 Agent 的菜单名称可能因版本不同而变化。找不到命令窗口时，直接在“技能 / Skill 导入”里选择仓库中的 `skills/batch-extract-md/`；如果只能选择单个文件，就选择其中的 `SKILL.md`。
 
 #### 国内 Agent 的手动导入
 
