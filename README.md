@@ -337,3 +337,9 @@ GitHub Actions 会在 push 和 pull request 时执行测试与 Python 语法检�
 ## 许可证
 
 MIT License。
+
+## 联系与交流
+
+项目交流、使用反馈或问题讨论，欢迎添加微信：`Xlzaaam`。
+
+添加时请备注：`批量提取文案md`。
