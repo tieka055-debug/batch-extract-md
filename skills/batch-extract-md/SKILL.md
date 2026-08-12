@@ -7,6 +7,12 @@ description: 批量提取文案md：将用户有权访问的 Get笔记知识库�
 
 当用户要求批量提取、备份、整理 Get笔记 / biji.com 知识库文案时使用本 Skill。
 
+## 使用前准备
+
+先提醒用户在 Get笔记中搜索并**订阅/关注目标博主的知识库**，然后从网页端复制完整知识库 URL。订阅/关注决定网页端是否能看到文章，不代表需要购买 Get笔记会员。
+
+如果用户没有先订阅，登录后可能没有文章列表，或页面会回到首页。
+
 ## 你需要向用户确认的输入
 
 - 完整知识库 URL，例如 `https://www.biji.com/subject/TARGET/DEFAULT?followId=TARGET&followName=NAME`。

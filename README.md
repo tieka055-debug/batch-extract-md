@@ -184,6 +184,28 @@ batch-extract-md --help
 batch-extract-md install-skill --dir "/你的 Agent Skills 目录"
 ```
 
+## 使用前准备：先订阅要提取的博主
+
+第一次使用时，很多人会漏掉这一步：**必须先在 Get笔记里订阅/关注目标博主的知识库**。
+
+操作顺序：
+
+1. 打开 Get笔记 App 或网页端。
+2. 搜索要提取的抖音博主或进入其知识库页面。
+3. 点击“订阅”“关注”或同等入口，让该博主出现在你的知识库列表中。
+4. 打开这个知识库的网页页面，复制完整 URL。
+5. 确认 URL 包含 `subject/`、`followId`，最好同时保留 `followName`，再交给工具。
+
+URL 示例：
+
+```text
+https://www.biji.com/subject/TARGET/DEFAULT?followId=TARGET&followName=博主名称
+```
+
+**订阅/关注是内容可见性的前置条件，不等同于 Get笔记会员。**批量提取文案md本身不调用官方 API，也不要求工具购买会员；但网页端仍然只能读取当前账号已经可以正常打开的知识库。
+
+如果没有先订阅，常见表现是登录成功后没有文章列表、列表数量为 0，或者打开链接后被带回首页。
+
 ## 使用方法
 
 ### CLI：从完整 URL 导出
