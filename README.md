@@ -20,6 +20,85 @@ Get笔记里的内容适合在应用内阅读，但当你想做个人备份、�
 
 工具只操作当前登录账号能够看到的页面，不需要把账号密码写进配置文件，也不要求把浏览器 Cookie 上传到 GitHub。
 
+## 安装
+
+### 方式一：安装 Agent Skill（最方便，推荐）
+
+如果你使用 Codex、Claude Code（CC）、豆包、WorkBuddy 或 Trae，优先安装仓库内的 Skill。Skill 负责让 Agent 知道什么时候调用本地导出命令；实际浏览器和文件仍在你的电脑上运行。
+
+#### 通用安装命令
+
+在终端执行：
+
+```bash
+npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md
+```
+
+安装完成后，在 Agent 中直接说：
+
+> 批量提取这个 Get笔记知识库的文案：URL
+
+#### 不同 Agent 的标注
+
+| Agent | 推荐方式 | 说明 |
+| --- | --- | --- |
+| **Codex** | `npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md --agent codex` | 安装到 Codex 的 Skills 目录 |
+| **Claude Code（CC）** | `npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md --agent claude-code` | 安装到 Claude Code 的 Skills 目录 |
+| **豆包** | 使用“技能 / Skill 导入”，选择仓库中的 `skills/batch-extract-md/` | 如果支持标准 Agent Skills，也可使用通用安装命令 |
+| **WorkBuddy** | 使用“技能 / Skill 导入”，选择仓库中的 `skills/batch-extract-md/` | 导入后让 WorkBuddy 调用本机 `batch-extract-md` 命令 |
+| **Trae** | 使用“Skills / Rules / Agent Skills”导入目录，选择 `skills/batch-extract-md/` | 不识别 `npx` 时使用目录导入 |
+
+> 国内 Agent 的菜单名称可能因版本不同而变化。找不到导入入口时，直接把 `skills/batch-extract-md/SKILL.md` 放进它的 Skills 目录即可。
+
+#### 国内 Agent 的手动导入
+
+如果豆包、WorkBuddy 或 Trae 不支持 `npx skills`，下载仓库后，把下面整个目录复制到对应 Agent 的 Skills 目录：
+
+```text
+skills/batch-extract-md/
+└── SKILL.md
+```
+
+同时确保本机已经安装项目命令：
+
+```bash
+batch-extract-md --help
+```
+
+Skill 安装后不会替你登录，也不会把账号信息上传到 Agent；首次导出时仍会打开本机独立 Chrome，让你自己完成登录。
+
+### 方式二：从源码安装命令行和 GUI
+
+适合希望自己运行、二次开发或没有 Agent Skills 功能的用户：
+
+```bash
+git clone https://github.com/tieka055-debug/batch-extract-md.git
+cd batch-extract-md
+python -m venv .venv
+
+# macOS / Linux
+. .venv/bin/activate
+
+# Windows PowerShell
+# .venv\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip
+pip install -e .
+playwright install chromium
+```
+
+检查命令是否可用：
+
+```bash
+batch-extract-md --help
+```
+
+如需手动把 Skill 安装到指定目录：
+
+```bash
+batch-extract-md install-skill --dir "/你的 Agent Skills 目录"
+```
+
 ## 为什么需要这个工具
 
 常见的文案整理方式大致有三种，各有明显限制：
@@ -104,85 +183,6 @@ exports/
 ### 本地 Agent 工作流
 
 安装 Skill 后，可在 Codex、Claude Code（CC）、豆包、WorkBuddy、Trae 等能够运行本地命令的 Agent 中使用。Agent 负责组织参数和返回结果，浏览器登录仍在本机独立窗口中完成。
-
-## 安装
-
-### 方式一：安装 Agent Skill（最方便，推荐）
-
-如果你使用 Codex、Claude Code（CC）、豆包、WorkBuddy 或 Trae，优先安装仓库内的 Skill。Skill 负责让 Agent 知道什么时候调用本地导出命令；实际浏览器和文件仍在你的电脑上运行。
-
-#### 通用安装命令
-
-在终端执行：
-
-```bash
-npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md
-```
-
-安装完成后，在 Agent 中直接说：
-
-> 批量提取这个 Get笔记知识库的文案：URL
-
-#### 不同 Agent 的标注
-
-| Agent | 推荐方式 | 说明 |
-| --- | --- | --- |
-| **Codex** | `npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md --agent codex` | 安装到 Codex 的 Skills 目录 |
-| **Claude Code（CC）** | `npx skills add tieka055-debug/batch-extract-md --skill batch-extract-md --agent claude-code` | 安装到 Claude Code 的 Skills 目录 |
-| **豆包** | 使用“技能 / Skill 导入”，选择仓库中的 `skills/batch-extract-md/` | 如果支持标准 Agent Skills，也可使用通用安装命令 |
-| **WorkBuddy** | 使用“技能 / Skill 导入”，选择仓库中的 `skills/batch-extract-md/` | 导入后让 WorkBuddy 调用本机 `batch-extract-md` 命令 |
-| **Trae** | 使用“Skills / Rules / Agent Skills”导入目录，选择 `skills/batch-extract-md/` | 不识别 `npx` 时使用目录导入 |
-
-> 国内 Agent 的菜单名称可能因版本不同而变化。找不到导入入口时，直接把 `skills/batch-extract-md/SKILL.md` 放进它的 Skills 目录即可。
-
-#### 国内 Agent 的手动导入
-
-如果豆包、WorkBuddy 或 Trae 不支持 `npx skills`，下载仓库后，把下面整个目录复制到对应 Agent 的 Skills 目录：
-
-```text
-skills/batch-extract-md/
-└── SKILL.md
-```
-
-同时确保本机已经安装项目命令：
-
-```bash
-batch-extract-md --help
-```
-
-Skill 安装后不会替你登录，也不会把账号信息上传到 Agent；首次导出时仍会打开本机独立 Chrome，让你自己完成登录。
-
-### 方式二：从源码安装命令行和 GUI
-
-适合希望自己运行、二次开发或没有 Agent Skills 功能的用户：
-
-```bash
-git clone https://github.com/tieka055-debug/batch-extract-md.git
-cd batch-extract-md
-python -m venv .venv
-
-# macOS / Linux
-. .venv/bin/activate
-
-# Windows PowerShell
-# .venv\Scripts\Activate.ps1
-
-python -m pip install --upgrade pip
-pip install -e .
-playwright install chromium
-```
-
-检查命令是否可用：
-
-```bash
-batch-extract-md --help
-```
-
-如需手动把 Skill 安装到指定目录：
-
-```bash
-batch-extract-md install-skill --dir "/你的 Agent Skills 目录"
-```
 
 ## 使用前准备：先订阅要提取的博主
 
