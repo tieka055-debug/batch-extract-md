@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Local runtime data
+.batch-extract-md/
+exports/
+chrome-profile/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
