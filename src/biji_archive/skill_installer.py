@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-SKILL_SOURCE = PROJECT_ROOT / "skills" / "biji-archive"
+SKILL_SOURCE = PROJECT_ROOT / "skills" / "batch-extract-md"
 
 
 def default_skill_root(agent: str) -> Path:
@@ -15,7 +15,7 @@ def default_skill_root(agent: str) -> Path:
 def install_skill(destination_root: Path, command: str) -> Path:
     if not SKILL_SOURCE.is_dir():
         raise RuntimeError(f"Skill source is missing: {SKILL_SOURCE}")
-    target = destination_root / "biji-archive"
+    target = destination_root / "batch-extract-md"
     if target.exists():
         shutil.rmtree(target)
     shutil.copytree(SKILL_SOURCE, target)

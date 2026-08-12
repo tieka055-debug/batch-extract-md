@@ -12,15 +12,15 @@ def export_command(args: argparse.Namespace) -> None:
 
 def install_command(args: argparse.Namespace) -> None:
     root = args.dir or default_skill_root(args.agent)
-    command = f'python "{Path(__file__).resolve().parents[2] / "src" / "biji_archive" / "cli.py"}" export-url'
+    command = 'batch-extract-md export-url'
     target = install_skill(root, command)
     print(json.dumps({"ok": True, "skill_dir": str(target)}, ensure_ascii=False))
 
 def main() -> None:
-    parser=argparse.ArgumentParser(prog="biji-archive", description="Export your Biji knowledge-base notes locally.")
+    parser=argparse.ArgumentParser(prog="batch-extract-md", description="批量提取文案md：将 Get笔记知识库内容导出为 Markdown。")
     subs=parser.add_subparsers(dest="command", required=True)
     export=subs.add_parser("export-url", help="Export one knowledge-base URL")
-    export.add_argument("url"); export.add_argument("--output",type=Path,default=Path("exports")); export.add_argument("--profile",type=Path,default=Path.home()/".biji-archive"/"chrome-profile"); export.add_argument("--max",type=int,default=0); export.set_defaults(handler=export_command)
+    export.add_argument("url"); export.add_argument("--output",type=Path,default=Path("exports")); export.add_argument("--profile",type=Path,default=Path.home()/".batch-extract-md"/"chrome-profile"); export.add_argument("--max",type=int,default=0); export.set_defaults(handler=export_command)
     install=subs.add_parser("install-skill", help="Install the bundled Agent Skill")
     install.add_argument("--agent",choices=("codex","claude"),default="codex"); install.add_argument("--dir",type=Path); install.set_defaults(handler=install_command)
     args=parser.parse_args()

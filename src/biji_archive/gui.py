@@ -11,12 +11,12 @@ from .naming import collection_name
 
 class App:
     def __init__(self) -> None:
-        self.root = tk.Tk(); self.root.title("Biji Archive"); self.root.geometry("720x430")
+        self.root = tk.Tk(); self.root.title("批量提取文案md"); self.root.geometry("720x430")
         self.events: queue.Queue[tuple[str, object]] = queue.Queue()
         self.url = tk.StringVar(); self.output = tk.StringVar(value=str(Path.cwd() / "exports"))
-        self.profile = tk.StringVar(value=str(Path.home() / ".biji-archive" / "chrome-profile")); self.limit = tk.StringVar(value="0")
+        self.profile = tk.StringVar(value=str(Path.home() / ".batch-extract-md" / "chrome-profile")); self.limit = tk.StringVar(value="0")
         frame = ttk.Frame(self.root, padding=20); frame.pack(fill="both", expand=True); frame.columnconfigure(1, weight=1)
-        ttk.Label(frame, text="Biji Archive", font=("Arial", 20, "bold")).grid(column=0, row=0, columnspan=3, sticky="w")
+        ttk.Label(frame, text="批量提取文案md", font=("Arial", 20, "bold")).grid(column=0, row=0, columnspan=3, sticky="w")
         ttk.Label(frame, text="首次导出会打开独立 Chrome，请在窗口内完成登录。", wraplength=650).grid(column=0,row=1,columnspan=3,sticky="w",pady=(6,18))
         self._field(frame, "知识库 URL", self.url, 2)
         self._field(frame, "输出目录", self.output, 3, browse=True)
@@ -50,4 +50,8 @@ class App:
         except queue.Empty: pass
         self.root.after(100,self.poll)
 
-def main() -> None: App().root.mainloop()
+def main() -> None:
+    App().root.mainloop()
+
+if __name__ == "__main__":
+    main()

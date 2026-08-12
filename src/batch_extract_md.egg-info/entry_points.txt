@@ -1,0 +1,3 @@
+[console_scripts]
+batch-extract-md = biji_archive.cli:main
+biji-archive = biji_archive.cli:main

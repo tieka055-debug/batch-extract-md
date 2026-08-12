@@ -1,3 +1,13 @@
+Metadata-Version: 2.4
+Name: batch-extract-md
+Version: 0.1.0
+Summary: 批量提取文案md：将 Get笔记知识库内容导出为 Markdown
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: playwright>=1.40
+Dynamic: license-file
+
 # 批量提取文案md
 
 > **批量提取文案md** 是一个本地运行的 Get笔记（biji.com）知识库 Markdown 导出工具。

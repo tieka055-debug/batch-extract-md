@@ -1,12 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "biji-archive"
+name = "batch-extract-md"
 version = "0.1.0"
-description = "Personal Get笔记 knowledge-base exporter with browser-rendered fallback"
+description = "批量提取文案md：将 Get笔记知识库内容导出为 Markdown"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = ["playwright>=1.40"]
 
 [project.scripts]
+batch-extract-md = "biji_archive.cli:main"
 biji-archive = "biji_archive.cli:main"
 
 [tool.pytest.ini_options]
