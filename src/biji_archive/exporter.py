@@ -61,7 +61,7 @@ def export_url(url: str, output_dir: Path, profile_dir: Path, max_articles: int 
                 target.locator(TITLE).wait_for(timeout=15_000)
                 title, content = article_text(target)
                 path = next_path(output_dir, index + 1, title)
-                path.write_text(f"# {title}\\n\\n来源：{target.url}\\n\\n{content}\\n", encoding="utf-8")
+                path.write_text(f"# {title}\n\n来源：{target.url}\n\n{content}\n", encoding="utf-8")
                 exported += 1
                 if target is not page:
                     target.close()

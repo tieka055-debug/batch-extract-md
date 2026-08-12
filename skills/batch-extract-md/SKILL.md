@@ -16,7 +16,7 @@ description: 批量提取文案md：将用户有权访问的 Get笔记知识库�
 ## 执行方式
 
 ```bash
-{{CLI_COMMAND}} "https://www.biji.com/subject/TARGET/DEFAULT?followId=TARGET&followName=NAME"
+batch-extract-md export-url "https://www.biji.com/subject/TARGET/DEFAULT?followId=TARGET&followName=NAME"
 ```
 
 首次执行会打开独立 Chrome。请提示用户在该窗口中完成 biji 登录；登录信息保存在独立 profile 中，不读取日常 Chrome 的资料。登录完成后工具会逐篇点击列表、打开原文、抓取标题和正文，并写入 Markdown。
@@ -25,13 +25,13 @@ description: 批量提取文案md：将用户有权访问的 Get笔记知识库�
 
 ```bash
 # 先提取 3 篇做验证
-{{CLI_COMMAND}} "URL" --max 3
+batch-extract-md export-url "URL" --max 3
 
 # 指定输出根目录
-{{CLI_COMMAND}} "URL" --output "/ABSOLUTE/OUTPUT/DIRECTORY"
+batch-extract-md export-url "URL" --output "/ABSOLUTE/OUTPUT/DIRECTORY"
 
 # 指定独立登录 profile
-{{CLI_COMMAND}} "URL" --profile "/ABSOLUTE/PROFILE/DIRECTORY"
+batch-extract-md export-url "URL" --profile "/ABSOLUTE/PROFILE/DIRECTORY"
 ```
 
 ## 返回结果
